@@ -1,5 +1,6 @@
 
-export { default as CardLerMais} from './components/CardLerMais';
-export { default as ShadowCard} from './components/ShadowCard';
-export { default as MapCard} from './components/MapCard';
-export { default as ImageCard} from './components/ImageCard';
+export { default as BarraFerramentas} from './components/BarraFerramentas';
+export { default as BarraFerramentasHamburguer} from './components/BarraFerramentasHamburguer';
+export { default as SiteMap} from './components/SiteMap';
+
+export type { ItemMenuConfig } from './types/ItemMenuConfig';

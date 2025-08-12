@@ -5,8 +5,8 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import { Bar, ContainerRedeSocialHorizontal, CustomToolbar, SpanBody1 } from './BarraFerramentasStyled';
-import NavigationHamburguerButton from './NavigationHamburguerButton';
 import { ItemMenuConfig } from '@/types/ItemMenuConfig';
+import NavigationButton from './NavigationButton';
 
 
 interface BarraFerramentasHamburguerProps {    
@@ -62,20 +62,20 @@ const BarraFerramentasHamburguer: React.FC<BarraFerramentasHamburguerProps> = ({
             onClose={handleCloseNavMenu}
             sx={{ display: { xs: 'block', md: 'none' } }}
           >
-            <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>   
+            <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>                 
               {listaItemMenu?.map((item) => (                                  
-                <NavigationHamburguerButton 
+                <NavigationButton 
                   key={item.url}
                   width='auto'
                   url={item.url} 
                   color={color} 
                   color_hover={color_hover} 
                   text_decoration="none" 
-                  afterNavigation={handleCloseNavMenu}
+                  afterClick={handleCloseNavMenu}
                   aria_label={'menu ' + item.text}
                   layout='button'>
                   <SpanBody1 text_color={color}>{item.text}</SpanBody1>
-                </NavigationHamburguerButton>   
+                </NavigationButton>   
               ))}             
             </Box>
           </Menu>            

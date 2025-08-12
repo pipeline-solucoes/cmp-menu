@@ -73,77 +73,83 @@ interface NavigationButtonProps {
   layout: 'button' | 'link';
   width: string;
   margin?: string;
-  children: React.ReactNode;     
+  children: React.ReactNode;  
+  afterClick?: () => void;
 }
 
 const NavigationButton: React.FC<NavigationButtonProps> = ({ 
   url, aria_label, background_color, background_color_hover,
   color, color_hover, border_radius, border_color, text_decoration = 'none',
-  layout, width, margin, children }) => {
+  layout, width, margin, children, afterClick }) => {
   
-    const backgroundColor : string = background_color ?? 'transparent';
-    const backgroundColorHover : string = background_color_hover ?? backgroundColor;
-    const colorHover : string = color_hover ?? color;    
-    const borderRadius : string = border_radius ?? '0px';
-    const padding : string = layout == 'button' ? '8px 24px' : '0px';
+  const backgroundColor = background_color ?? 'transparent';
+  const backgroundColorHover = background_color_hover ?? backgroundColor;
+  const colorHover = color_hover ?? color;    
+  const borderRadius = border_radius ?? '0px';
+  const padding = layout == 'button' ? '8px 24px' : '0px';
+  const borderColor = text_decoration == 'underline' ? 'transparent' : (border_color ?? 'transparent');
+  const borderColorUnderline = (text_decoration == 'underline') ? color : (border_color ?? 'transparent');
+  const marginButton = margin ?? '0px'; 
+  
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 
-    const borderColor : string = text_decoration == 'underline' ? 'transparent' : (border_color ?? 'transparent');
-    const borderColorUnderline : string = (text_decoration == 'underline') ? color : (border_color ?? 'transparent');
-    const marginButton : string = margin ?? '0px'; 
-    
-    if (url.indexOf('http') != -1) {
+    e.preventDefault();
+    const id = url.replace('#', '');
 
-      return (
-        <ButtonStyled 
-          href={url}
-          width={width}
-          background_color={backgroundColor}
-          background_color_hover={backgroundColorHover}
-          color={color} 
-          color_hover={colorHover}
-          border_radius={borderRadius}
-          border_color={borderColor}
-          border_color_underline={borderColorUnderline}
-          padding={padding}
-          margin={marginButton}
-          aria-label= {aria_label}  
-          target="_blank"
-          rel="noopener noreferrer">
-          {children}
-        </ButtonStyled>
-      );    
-    }
-    else{
-
-      const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      // Se for um link interno com hash
-      if (url.startsWith('#')) {
-        e.preventDefault();
-        const id = url.replace('#', '');
+    if (afterClick) {
+      afterClick();  // Fecha o Menu primeiro
+      // Faz o scroll com delay, para evitar reflow pesado
+      setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-      }
-    };
+      }, 250);
+    } else {
+      // Se não houver afterClick, scroll normal
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }    
+  };
 
-      return (
-        <ButtonStyled
-          href={url} 
-          onClick={handleClick}
-          width={width}
-          background_color={backgroundColor}
-          background_color_hover={backgroundColorHover}
-          color={color} 
-          color_hover={colorHover}
-          border_radius={borderRadius}
-          border_color={borderColor}
-          border_color_underline={borderColorUnderline}
-          padding={padding}
-          margin={marginButton}
-          aria-label= {aria_label}              
-        >
-          {children}
-        </ButtonStyled>
-      );  
-    }        
+  if (url.indexOf('http') != -1) {
+    return (
+      <ButtonStyled 
+        href={url}
+        width={width}
+        background_color={backgroundColor}
+        background_color_hover={backgroundColorHover}
+        color={color} 
+        color_hover={colorHover}
+        border_radius={borderRadius}
+        border_color={borderColor}
+        border_color_underline={borderColorUnderline}
+        padding={padding}
+        margin={marginButton}
+        aria-label={aria_label}  
+        target="_blank"
+        rel="noopener noreferrer"        
+      >
+        {children}
+      </ButtonStyled>
+    );    
+  }
+
+  return (
+    <ButtonStyled
+      href={url} 
+      onClick={handleClick}
+      width={width}
+      background_color={backgroundColor}
+      background_color_hover={backgroundColorHover}
+      color={color} 
+      color_hover={colorHover}
+      border_radius={borderRadius}
+      border_color={borderColor}
+      border_color_underline={borderColorUnderline}
+      padding={padding}
+      margin={marginButton}
+      aria-label={aria_label}              
+    >
+      {children}
+    </ButtonStyled>
+  );
 };
 
 export default NavigationButton;

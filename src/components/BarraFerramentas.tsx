@@ -72,7 +72,9 @@ const BarraFerramentas: React.FC<BarraFerramentasProps> = ({
         {renderLogo()}
         <DivStyled>
           <ContainerMenuHorizontal>
-            {buttons ? buttons : <SpanBody1 text_color={color}>carregando...</SpanBody1>}
+            <nav>
+              {buttons ? buttons : <SpanBody1 text_color={color}>carregando...</SpanBody1>}
+            </nav>
           </ContainerMenuHorizontal>
           <ContainerRedeSocialHorizontal>
             {renderSocialMedia()}

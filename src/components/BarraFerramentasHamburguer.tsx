@@ -62,27 +62,29 @@ const BarraFerramentasHamburguer: React.FC<BarraFerramentasHamburguerProps> = ({
           onClose={handleCloseNavMenu}
           sx={{ display: { xs: 'block', md: 'none' } }}
         >
-          <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>
-            {listaItemMenu && listaItemMenu.length > 0 ? (
-              listaItemMenu.map((item) => (
-                <NavigationButton 
-                  key={item.url}
-                  width='auto'
-                  url={item.url} 
-                  color={color} 
-                  color_hover={color_hover} 
-                  text_decoration="none" 
-                  afterClick={handleCloseNavMenu}
-                  aria_label={'menu ' + item.text}
-                  layout='button'
-                >
-                  <SpanBody1 text_color={color}>{item.text}</SpanBody1>
-                </NavigationButton>
-              ))
-            ) : (
-              <SpanBody1 text_color={color}>carregando...</SpanBody1>
-            )}
-          </Box>
+          <nav>
+            <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>            
+              {listaItemMenu && listaItemMenu.length > 0 ? (
+                listaItemMenu.map((item) => (
+                  <NavigationButton 
+                    key={item.url}
+                    width='auto'
+                    url={item.url} 
+                    color={color} 
+                    color_hover={color_hover} 
+                    text_decoration="none" 
+                    afterClick={handleCloseNavMenu}
+                    aria_label={'menu ' + item.text}
+                    layout='button'
+                  >
+                    <SpanBody1 text_color={color}>{item.text}</SpanBody1>
+                  </NavigationButton>
+                ))
+              ) : (
+                <SpanBody1 text_color={color}>carregando...</SpanBody1>
+              )}            
+            </Box>
+          </nav>
         </Menu>
       </Box>
     );

@@ -1,8 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Bar, ContainerRedeSocialHorizontal, CustomToolbar, SpanBody2 } from './BarraFerramentasStyled';
-import { useEffect } from 'react';
+import { Bar, ContainerRedeSocialHorizontal, CustomToolbar, SpanBody1 } from './BarraFerramentasStyled';
 import NavigationButton from './NavigationButton';
 import { ItemMenuConfig } from '@/types/ItemMenuConfig';
 import { styled } from '@mui/material';
@@ -36,14 +35,14 @@ const BarraFerramentas: React.FC<BarraFerramentasProps> = ({
     renderLogo, 
     renderSocialMedia, 
     background_color, color, color_hover, 
-    text_decoration}) => {
+    text_decoration
+}) => {
 
   const background_color_bar = background_color || 'transparent';
   const [buttons, setButtons] = React.useState<React.ReactNode[] | null>(null);
       
-    useEffect(() => {
-
-      const borderColor = (text_decoration == 'none') ? 'transparent' : color;
+  React.useEffect(() => {
+      const borderColor = (text_decoration === 'none') ? 'transparent' : color;
 
       if (listaItemMenu) {
           const constructedButtons = listaItemMenu.map((item) => (
@@ -67,28 +66,22 @@ const BarraFerramentas: React.FC<BarraFerramentasProps> = ({
       }
   }, [listaItemMenu, color, color_hover, text_decoration]);
 
-  if (buttons){
-    return (
-      <Bar background_color={background_color_bar} id="barraferramentas">        
-          <CustomToolbar disableGutters>
-            {renderLogo()}
-            <DivStyled>              
-              <ContainerMenuHorizontal>
-                {buttons}
-              </ContainerMenuHorizontal>
-              <ContainerRedeSocialHorizontal>
-                {renderSocialMedia()}
-              </ContainerRedeSocialHorizontal> 
-            </DivStyled>
-          </CustomToolbar>        
-      </Bar>
-    );
-  }
-  else{
-    <Bar background_color={background_color_bar}>
-      <SpanBody2 text_color={color}>carregando...</SpanBody2>
+  return (
+    <Bar background_color={background_color_bar} id="barraferramentas">
+      <CustomToolbar disableGutters>
+        {renderLogo()}
+        <DivStyled>
+          <ContainerMenuHorizontal>
+            {buttons ? buttons : <SpanBody1 text_color={color}>carregando...</SpanBody1>}
+          </ContainerMenuHorizontal>
+          <ContainerRedeSocialHorizontal>
+            {renderSocialMedia()}
+          </ContainerRedeSocialHorizontal>
+        </DivStyled>
+      </CustomToolbar>
     </Bar>
-  }
+  );
 }
 
 export default BarraFerramentas;
+

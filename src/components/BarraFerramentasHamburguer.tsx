@@ -8,9 +8,8 @@ import { Bar, ContainerRedeSocialHorizontal, CustomToolbar, SpanBody1 } from './
 import { ItemMenuConfig } from '@/types/ItemMenuConfig';
 import NavigationButton from './NavigationButton';
 
-
 interface BarraFerramentasHamburguerProps {    
-    listaItemMenu: ItemMenuConfig[];   
+    listaItemMenu?: ItemMenuConfig[];
     background_color?: string;
     color: string;    
     color_hover: string;       
@@ -22,7 +21,8 @@ interface BarraFerramentasHamburguerProps {
 const BarraFerramentasHamburguer: React.FC<BarraFerramentasHamburguerProps> = ({
     listaItemMenu, renderSocialMedia, 
     background_color, color, color_hover,  
-    renderImageHamburguer, renderLogo}) => {
+    renderImageHamburguer, renderLogo
+}) => {
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
@@ -35,35 +35,36 @@ const BarraFerramentasHamburguer: React.FC<BarraFerramentasHamburguerProps> = ({
   };
 
   const renderMenu = () => {
-    return(        
-        <Box>            
-          <IconButton
-            size="large"
-            aria-label="menu hamburguer"            
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            {renderImageHamburguer()}
-          </IconButton>
+    return (
+      <Box>
+        <IconButton
+          size="large"
+          aria-label="menu hamburguer"
+          aria-haspopup="true"
+          onClick={handleOpenNavMenu}
+          color="inherit"
+        >
+          {renderImageHamburguer()}
+        </IconButton>
 
-          <Menu            
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{ display: { xs: 'block', md: 'none' } }}
-          >
-            <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>                 
-              {listaItemMenu?.map((item) => (                                  
+        <Menu
+          anchorEl={anchorElNav}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          open={Boolean(anchorElNav)}
+          onClose={handleCloseNavMenu}
+          sx={{ display: { xs: 'block', md: 'none' } }}
+        >
+          <Box display='flex' flexDirection='column' sx={{ padding: "8px" }}>
+            {listaItemMenu && listaItemMenu.length > 0 ? (
+              listaItemMenu.map((item) => (
                 <NavigationButton 
                   key={item.url}
                   width='auto'
@@ -73,33 +74,38 @@ const BarraFerramentasHamburguer: React.FC<BarraFerramentasHamburguerProps> = ({
                   text_decoration="none" 
                   afterClick={handleCloseNavMenu}
                   aria_label={'menu ' + item.text}
-                  layout='button'>
+                  layout='button'
+                >
                   <SpanBody1 text_color={color}>{item.text}</SpanBody1>
-                </NavigationButton>   
-              ))}             
-            </Box>
-          </Menu>            
-        </Box>                 
+                </NavigationButton>
+              ))
+            ) : (
+              <SpanBody1 text_color={color}>carregando...</SpanBody1>
+            )}
+          </Box>
+        </Menu>
+      </Box>
     );
   };
 
   const background_color_bar = background_color || 'transparent';
 
   return (
-    <Bar background_color={background_color_bar} id="barraferramentahamburguer">      
+    <Bar background_color={background_color_bar} id="barraferramentahamburguer">
       <CustomToolbar disableGutters>
         <Box>
-          { listaItemMenu.length > 0 && renderMenu() }
+          {renderMenu()}
         </Box>
         <Box flex={1} display="flex" alignItems="center" justifyContent="center">
-          { renderLogo() }
-        </Box>        
+          {renderLogo()}
+        </Box>
         <ContainerRedeSocialHorizontal>
           {renderSocialMedia()}
-        </ContainerRedeSocialHorizontal>          
-      </CustomToolbar>      
+        </ContainerRedeSocialHorizontal>
+      </CustomToolbar>
     </Bar>
   );
 }
 
 export default BarraFerramentasHamburguer;
+
